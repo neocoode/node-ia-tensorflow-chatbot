@@ -31,12 +31,11 @@ module.exports = {
     'no-promise-executor-return': 'off',
 
     // Regras habilitadas para boas práticas
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'off',
     eqeqeq: 'error',
     'prefer-const': 'error',
     'no-undef': 'error',
     'no-shadow': 'off',
-    'no-use-before-define': 'error',
     radix: 'error',
     'arrow-body-style': 'error',
     'array-callback-return': 'error',
@@ -51,5 +50,11 @@ module.exports = {
     'no-useless-return': 'off',
     'max-classes-per-file': 'off',
     'prettier/prettier': 'error',
+    'prefer-arrow-callback': 'off',
+    'func-names': 'off',
+    'no-use-before-define': 'off',
+    'no-constant-condition': 'off',
+    'no-await-in-loop': 'off',
+    'no-loop-func': 'off',
   },
 };

@@ -27,9 +27,11 @@ app.use(express.json());
 app.use('/chat', chatRoutes);
 app.use('/train', trainRoutes);
 
+app.use('/chat/static', express.static(path.join(__dirname, '../views/chat')));
+
 // Rota inicial que renderiza a página Home (Chat)
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('chat/index');
 });
 
 // Definir a porta da aplicação

@@ -65,7 +65,7 @@ export const handleChatStream = async (req: Request, res: Response) => {
     const palavras = resposta.split(' ');
     for (const palavra of palavras) {
       // eslint-disable-next-line no-await-in-loop
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Delay para simular tempo de envio
+      await new Promise((resolve) => setTimeout(resolve, 50)); // Delay para simular tempo de envio
       res.write(`${palavra} `);
     }
     res.end();
