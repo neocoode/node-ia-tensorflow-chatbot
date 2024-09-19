@@ -9,7 +9,7 @@
     "prettier:write": "prettier --write .",
     "lint": "eslint .",
     "prepare": "husky install",
-    "commit": "cz"
+    "commit": "git add . && npx cz"
   },
   "repository": {
     "type": "git",
