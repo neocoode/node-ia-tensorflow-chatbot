@@ -3,4 +3,4 @@
   - prettier --write
 "*.ts":
   - eslint --fix
-  # - prettier --write
+  - prettier --write
