@@ -34,7 +34,7 @@
 
       trainButton.addEventListener('click', async function () {
         trainButton.disabled = true;
-        const response = await fetch('/train', { method: 'POST' });
+        const response = await fetch('/api/train', { method: 'POST' });
         const data = await response.json();
         document.getElementById('resultadoTreinamento').innerText = data.message || data.error;
         trainButton.disabled = false;

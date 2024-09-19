@@ -2,11 +2,20 @@ const chatContainer = document.getElementById('chatContainer');
 const chatForm = document.getElementById('chatForm');
 const trainButton = document.getElementById('trainButton');
 const sendButton = document.getElementById('sendButton');
-let isSending = false; // Controla se está enviando ou não
+let isSending = false;
 
 trainButton.addEventListener('click', function () {
-  window.location.href = '/train'; // Redireciona para a página de treinamento
+  window.location.href = '/train';
 });
+
+function toggleSendIcon() {
+  if (isSending) {
+    sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+  } else {
+    sendButton.innerHTML = '<i class="fas fa-stop"></i>';
+  }
+  isSending = !isSending;
+}
 
 chatForm.addEventListener('submit', async function (event) {
   event.preventDefault();
@@ -14,95 +23,82 @@ chatForm.addEventListener('submit', async function (event) {
   const pergunta = document.getElementById('pergunta').value;
   if (!pergunta) return;
 
-  // Adicionar a pergunta do usuário no chat palavra por palavra
   addWordByWord(pergunta, 'user-message');
 
-  // Limpar o campo de input
   document.getElementById('pergunta').value = '';
-
-  // Alterar o ícone para o modo de envio
   toggleSendIcon();
 
-  // Simular envio da mensagem e permitir o cancelamento
-  const controller = new AbortController(); // Controla o abortamento da requisição
-  const { signal } = controller;
-  const botMessageDiv = document.createElement('div');
-
   try {
-    const response = await fetch('/chat/stream', {
+    const response = await fetch('/api/chat/stream', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ pergunta }),
-      signal: signal,
     });
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-    const botMessage = '';
+    let done = false;
+    let buffer = '';
 
-    // Criar um novo bloco de mensagem para o chatbot
-    botMessageDiv.classList.add('message', 'bot-message');
-    chatContainer.appendChild(botMessageDiv);
+    while (!done) {
+      const { value, done: readerDone } = await reader.read();
+      done = readerDone;
 
-    // Ler o stream palavra por palavra
-    let wordIndex = 0;
-    const delayBetweenWords = 0.05;
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const textChunk = decoder.decode(value);
+      const chunk = decoder.decode(value, { stream: true });
+      buffer += chunk;
 
-      // Quebrar o texto em palavras e exibi-las uma a uma
-      const words = textChunk.split(' ');
-      words.forEach((word) => {
-        const wordSpan = document.createElement('span');
-        wordSpan.classList.add('word');
-        wordSpan.style.animationDelay = `${wordIndex * delayBetweenWords}s`;
-        wordSpan.textContent = word;
-        botMessageDiv.appendChild(wordSpan);
-        wordIndex++;
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // Preservar qualquer fragmento de JSON incompleto no buffer
+
+      lines.forEach((line) => {
+        if (line.startsWith('data: ')) {
+          try {
+            const parsedData = JSON.parse(line.replace('data: ', '').trim());
+
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.classList.add('message', 'bot-message');
+            chatContainer.appendChild(botMessageDiv);
+
+            if (parsedData.type === 'resume') {
+              addWordByWord(`Resumo: ${parsedData.text}`, 'bot-message', botMessageDiv);
+            } else if (parsedData.type === 'response') {
+              addWordByWord(`* ${parsedData.text}`, 'bot-message', botMessageDiv);
+            } else if (parsedData.type === 'link') {
+              const linkDiv = document.createElement('div');
+              linkDiv.classList.add('message', 'bot-message');
+              linkDiv.innerHTML = `<a href="${parsedData.url}" target="_blank">${parsedData.text}</a>`;
+              chatContainer.appendChild(linkDiv);
+            }
+
+            // Scroll automático para a última mensagem
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+          } catch (error) {
+            console.error('Erro ao processar o JSON:', error);
+          }
+        }
       });
-
-      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   } catch (error) {
-    if (error.name === 'AbortError') {
-      botMessageDiv.innerText = 'Envio cancelado.';
-    } else {
-      botMessageDiv.innerText = 'Erro no envio da mensagem.';
-    }
+    console.error('Erro ao enviar a mensagem:', error);
   } finally {
     toggleSendIcon();
   }
 });
 
-function addWordByWord(message, messageType) {
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message', messageType);
-  chatContainer.appendChild(messageDiv);
+function addWordByWord(text, className, element) {
+  const words = text.split(' ');
+  element = element || document.createElement('div');
+  element.classList.add('message', className);
+  chatContainer.appendChild(element);
 
-  const words = message.split(' ');
   words.forEach((word, index) => {
-    const wordSpan = document.createElement('span');
-    wordSpan.classList.add('word');
-    wordSpan.style.animationDelay = `${index * 0.05}s`;
-    wordSpan.textContent = word;
-    messageDiv.appendChild(wordSpan);
+    setTimeout(() => {
+      const wordSpan = document.createElement('span');
+      wordSpan.classList.add('word');
+      wordSpan.textContent = word;
+      element.appendChild(wordSpan);
+    }, index * 100);
   });
-
-  chatContainer.scrollTop = chatContainer.scrollHeight;
-}
-
-function toggleSendIcon() {
-  isSending = !isSending;
-
-  if (isSending) {
-    sendButton.innerHTML = '<i class="fas fa-square"></i>';
-    sendButton.classList.add('icon-square');
-  } else {
-    sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
-    sendButton.classList.remove('icon-square');
-  }
 }

@@ -1,5 +1,3 @@
-import { perguntas } from '@data/data';
-
 // Funções auxiliares de tokenização e processamento de texto
 export const tokenize = (text: string) => text.toLowerCase().split(' ');
 
@@ -27,11 +25,3 @@ export const padSequences = (sequences: number[][], maxLen: number) =>
     }
     return seq.slice(0, maxLen); // Limita se a sequência for maior
   });
-
-// Construindo o vocabulário a partir das perguntas
-export const vocab = buildVocab(perguntas);
-
-// Comprimento máximo da sequência
-export const maxSequenceLength = Math.max(
-  ...convertToSequence(perguntas, vocab).map((seq) => seq.length),
-);

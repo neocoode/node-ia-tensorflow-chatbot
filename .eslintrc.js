@@ -34,10 +34,9 @@ module.exports = {
     'no-unused-vars': 'off',
     eqeqeq: 'error',
     'prefer-const': 'error',
-    'no-undef': 'error',
+    'no-undef': 'off',
     'no-shadow': 'off',
     radix: 'error',
-    'arrow-body-style': 'error',
     'array-callback-return': 'error',
 
     // Regras desativadas por flexibilidade
@@ -56,5 +55,12 @@ module.exports = {
     'no-constant-condition': 'off',
     'no-await-in-loop': 'off',
     'no-loop-func': 'off',
+    'prefer-destructuring': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'no-alerts': 'off',
+    'import/extensions': 'off',
+    'prefer-template': 'off',
+    'arrow-body-style': 'off',
+    'no-return-await': 'off',
   },
 };

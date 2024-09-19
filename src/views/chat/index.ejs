@@ -4,39 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatbot GPT</title>
-    <!-- Importando os estilos específicos da página de chat -->
     <link href="/chat/static/styles.css" rel="stylesheet" />
-    <!-- Font Awesome para ícones -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
       crossorigin="anonymous"
     ></script>
   </head>
   <body>
-    <!-- Área principal do chat -->
     <div class="chat-container" id="chatContainer">
-      <!-- As mensagens irão aparecer aqui -->
+      <div class="chat-messages-container" id="chatMessages">
+        <div class="chat-messages" id="chatMessages">
+          <!-- As mensagens serão exibidas aqui -->
+        </div>
+      </div>
     </div>
 
-    <!-- Formulário de Chat com os ícones -->
     <div class="chat-input-area">
-      <!-- Ícone de atualizar para treinamento -->
       <button class="icon-button" id="trainButton">
         <i class="fas fa-sync-alt"></i>
-        <!-- Ícone de atualizar -->
       </button>
 
       <form id="chatForm">
         <input type="text" id="pergunta" placeholder="Digite sua pergunta..." required />
-        <!-- Ícone para enviar a mensagem -->
         <button type="submit" id="sendButton">
           <i class="fas fa-paper-plane"></i>
-          <!-- Ícone de enviar (seta para cima) -->
         </button>
       </form>
     </div>
 
-    <!-- Importando o script específico da página de chat -->
     <script src="/chat/static/script.js"></script>
   </body>
 </html>

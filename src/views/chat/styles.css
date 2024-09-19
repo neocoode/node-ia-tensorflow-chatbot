@@ -4,55 +4,81 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    background-color: #1f2937;
-    /* Fundo cinza escuro */
+    background-color: #396097;
     color: white;
     font-family: Arial, sans-serif;
+    overflow: hidden;
+    /* Impede a rolagem global da página */
 }
 
 .chat-container {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: #202226;
+    padding: 50px;
+    height: 100%;
+    overflow: auto;
+
+}
+
+.chat-messages {
+    margin: 5px;
+    background-color: #202226;
+    flex-grow: 1;
+    /* Permite que o chat-messages cresça e ocupe o espaço */
     overflow-y: auto;
+    /* Habilita o scroll vertical */
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    background-color: #374151;
-    /* Fundo da área de chat */
+    position: relative;
 }
 
-/* Estilo das mensagens */
 .message {
     max-width: 75%;
-    padding: 12px;
+    padding: 15px;
     border-radius: 10px;
     margin-bottom: 10px;
     line-height: 1.4;
     position: relative;
 }
 
-/* Balão de mensagem do usuário */
+.word {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeInWord 0.1s forwards;
+    margin-right: 5px;
+}
+
+@keyframes fadeInWord {
+    to {
+        opacity: 1;
+    }
+}
+
 .user-message {
-    background-color: #455d91;
+    background-color: #2563eb;
     color: white;
     align-self: flex-end;
     text-align: right;
     border-radius: 20px;
+    padding: 15px;
 }
 
-/* Balão de fala com seta */
 .user-message::after {
     content: '';
     position: absolute;
     top: 50%;
-    right: -8px;
+    right: -10px;
     width: 0;
     height: 0;
-    border-left: 10px solid #455d91;
-    /* Cor da seta */
+    border-left: 10px solid #2563eb;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    transform: translateY(-60%);
+    transform: translateY(-50%);
 }
 
 .bot-message {
@@ -61,6 +87,7 @@ body {
     align-self: flex-start;
     text-align: left;
     border-radius: 20px;
+    padding: 15px;
     position: relative;
     opacity: 0;
     animation: fadeIn 1s forwards;
@@ -74,40 +101,28 @@ body {
     width: 0;
     height: 0;
     border-right: 10px solid #374151;
-    /* Cor da seta */
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     transform: translateY(-50%);
 }
 
-/* Animação de surgimento suave */
 @keyframes fadeIn {
     to {
         opacity: 1;
     }
 }
 
-/* Animação palavra por palavra */
-.word {
-    display: inline-block;
-    opacity: 0;
-    animation: fadeInWord 0.2s forwards;
-    margin-right: 3px;
-}
-
-@keyframes fadeInWord {
-    to {
-        opacity: 1;
-    }
-}
-
-/* Área de input */
 .chat-input-area {
     display: flex;
     padding: 10px;
     background-color: #1f2937;
     border-top: 1px solid #2d3748;
     align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    box-sizing: border-box;
 }
 
 .icon-button {
@@ -142,6 +157,7 @@ input[type="text"] {
     background-color: #2d3748;
     color: white;
     margin-right: 10px;
+    box-sizing: border-box;
 }
 
 button[type="submit"] {
@@ -159,8 +175,4 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #3b82f6;
-}
-
-.icon-square {
-    background-color: #dc2626;
 }

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "sourceMap": true,
     "allowJs": true,
     "outDir": "dist",
@@ -18,7 +19,11 @@
       "@routes/*": ["routes/*"],
       "@data/*": ["data/*"],
       "@utils/*": ["utils/*"],
-      "@views/*": ["views/*"]
+      "@views/*": ["views/*"],
+      "@services/*": ["services/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@db/*": ["db/*"],
+      "@configs/*": ["configs/*"]
     }
   },
   "include": ["src/**/*"],
