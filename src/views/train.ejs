@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treinamento - Chatbot GPT</title>
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-900 min-h-screen flex flex-col justify-center items-center text-white">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <h1 class="text-3xl font-bold mb-6 text-center text-gray-100">Treinamento do Modelo</h1>
+
+      <!-- Botão para treinar o modelo -->
+      <button
+        id="trainButton"
+        class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded w-full"
+      >
+        Treinar Modelo
+      </button>
+
+      <div id="resultadoTreinamento" class="mt-4 text-gray-300 font-semibold"></div>
+      <a
+        href="/"
+        id="backButton"
+        class="mt-6 bg-blue-600 text-white px-4 py-2 rounded w-full text-center block"
+        >Voltar</a
+      >
+    </div>
+
+    <script>
+      const trainButton = document.getElementById('trainButton');
+      const backButton = document.getElementById('backButton');
+      backButton.disabled = true;
+
+      trainButton.addEventListener('click', async function () {
+        trainButton.disabled = true;
+        const response = await fetch('/train', { method: 'POST' });
+        const data = await response.json();
+        document.getElementById('resultadoTreinamento').innerText = data.message || data.error;
+        trainButton.disabled = false;
+        backButton.disabled = false;
+      });
+    </script>
+  </body>
+</html>

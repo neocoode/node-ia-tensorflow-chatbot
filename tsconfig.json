@@ -13,8 +13,12 @@
     "strict": true,
     "baseUrl": "./src",
     "paths": {
+      "@app/*": ["app/*"],
+      "@controllers/*": ["controllers/*"],
+      "@routes/*": ["routes/*"],
       "@data/*": ["data/*"],
-      "@models/*": ["models/*"]
+      "@utils/*": ["utils/*"],
+      "@views/*": ["views/*"]
     }
   },
   "include": ["src/**/*"],

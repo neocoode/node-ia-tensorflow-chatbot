@@ -20,18 +20,22 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     // Regras personalizadas
+    'import/no-extraneous-dependencies': 'off',
     'no-console': 'off',
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
     'consistent-return': 'off',
     'no-plusplus': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'tno-await-in-loop': 'off',
+    'no-promise-executor-return': 'off',
 
     // Regras habilitadas para boas práticas
     'no-unused-vars': 'error',
     eqeqeq: 'error',
     'prefer-const': 'error',
     'no-undef': 'error',
-    'no-shadow': 'error',
+    'no-shadow': 'off',
     'no-use-before-define': 'error',
     radix: 'error',
     'arrow-body-style': 'error',
